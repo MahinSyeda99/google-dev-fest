@@ -160,20 +160,107 @@ To check the agent entry point and tool wiring, run `adk web --port 8000` and tr
 
 Live end-to-end test: on 2026-10-24, the ADK Runner used `gemini-3.5-flash-lite` to create two goals, log 45 minutes separately from milestone progress, update milestone progress to 1/4 and 6/8, revise a 20-minute recommendation to fit 10 minutes, request approval, save the approved plan, and verify the result. The workflow assertions passed using an isolated temporary JSON file.
 
-Captured terminal output from the final live run:
+Captured terminal output from a live Gemini run on 2026-10-24. Prompts and model replies are reproduced as entered and returned; Markdown line breaks are preserved. Trailing spaces at line ends are omitted.
 
 ```text
-TOOLS: ['set_weekly_goal', 'set_weekly_goal', 'get_weekly_metrics']
-RESPONSE: I have created your weekly goals for the week starting 2026-10-19:  1. **Interview preparation** (Priority 1): 0/4 milestones completed (`░░░░░░░░░░`), 0 minutes spent. 2. **Focused work** (Priority 2): 0/8 milestones completed (`░░░░░░░░░░`), 0 minutes spent.  *Note:* As of today (2026-10-24), with 2 days remaining in the week, your priority goal **Interview preparation** is at risk (0% complete, with 4 milestones remaining).   What small next action would you like to take today to tackle "Review arrays" under Interview preparation?
-TOOLS: ['log_activity', 'update_goal_progress', 'update_goal_progress', 'get_weekly_metrics']
-RESPONSE: Great job getting those milestones updated and putting in 45 minutes of practice! Here are your current weekly metrics:  1. **Interview preparation** (Priority 1):     - Progress: 1/4 milestones completed (`██░░░░░░░░` — 25%)    - Time spent: 45 minutes    - *Note:* With 2 days remaining and this priority goal below 75% complete, **Interview preparation is currently at risk** (3 milestones remaining).  2. **Focused work** (Priority 2):     - Progress: 6/8 milestones completed (`████████░░` — 75%)    - Time spent: 0 minutes  Since only 2 days remain, would you like to plan a quick session for tomorrow to practice behavioral answers?
-TOOLS: []
-RESPONSE: Your week has mixed progress. While you've made great headway on your secondary goal—completing 6 out of 8 focus sessions for **Focused work** (75% done)—your priority goal is falling behind.   With only 2 days remaining, **Interview preparation** is at risk: it is currently at 25% progress (1 of 4 milestones completed, with 3 milestones remaining) and only 45 minutes logged.   Since you have 20 minutes free today, a great concrete next step is to tackle the next milestone for your priority goal by reviewing a few common behavioral questions and drafting your answers. Would you like to use your 20 minutes for that?
-TOOLS: []
-RESPONSE: With only 10 minutes available today, let's adjust to keep things realistic without overwhelming yourself.   **Recommended Action:** Spend 10 minutes skimming through your notes or bullet-pointing answers for just *one* common behavioral question (e.g., telling a story about a past conflict or challenge).  **What to defer:** Leave practicing the full set of behavioral answers and reviewing feedback for tomorrow or a separate session.   Does this 10-minute adjustment sound doable for today?
-TOOLS: ['save_focus_plan']
-RESPONSE: I've saved your 10-minute focus plan for today to draft a bullet-point answer for one common behavioral interview question, while deferring the rest to your upcoming sessions. You've got this.
-PASS: priority risk called out; 10-minute revision remained unsaved until approval; exactly one compliant plan saved.
+USER INPUT 1:
+For the week starting 2026-10-19, set two milestone goals. Priority 1: Interview preparation, with these four milestones: Review arrays; Practice behavioral answers; Complete a mock interview; Review feedback. Success means completing all four milestones. Priority 2: Focused work, with eight milestones named Focus session 1 through Focus session 8. Success means completing all eight sessions.
+TOOLS 1: ['set_weekly_goal', 'set_weekly_goal', 'get_weekly_metrics']
+MODEL RESPONSE 1:
+I've successfully set up your two weekly goals for the week starting 2026-10-19!
+
+Here is where we stand as of **2026-10-24** (with **2 days remaining** in the week):
+
+1. **Interview preparation** (Priority 1):
+   * Progress: `░░░░░░░░░░` 0% (0/4 milestones completed, 0 minutes spent)
+   * ⚠️ **At Risk:** With only 2 days remaining, your priority goal is well below 75% complete (0% complete, 4 milestones remaining).
+
+2. **Focused work** (Priority 2):
+   * Progress: `░░░░░░░░░░` 0% (0/8 milestones completed, 0 minutes spent)
+
+Since time is tight, let's take a small, manageable step to get the momentum going. Would you like to start with **"Review arrays"** for Interview preparation today? If so, how many minutes do you have available?
+---
+USER INPUT 2:
+Log 45 minutes of interview preparation this evening. I reviewed arrays and completed the Review arrays milestone.
+TOOLS 2: ['log_activity', 'update_goal_progress', 'get_weekly_metrics']
+MODEL RESPONSE 2:
+Great job logging your time and completing that first milestone!
+
+Here is where we stand as of **2026-10-24** (with **2 days remaining**):
+
+1. **Interview preparation** (Priority 1):
+   * Progress: `██░░░░░░░░` 25% (1/4 milestones completed, 45 minutes spent)
+   * ⚠️ **At Risk:** With 2 days remaining, this priority goal is below 75% complete (currently at 25% with 3 milestones remaining).
+
+2. **Focused work** (Priority 2):
+   * Progress: `░░░░░░░░░░` 0% (0/8 milestones completed, 0 minutes spent)
+
+You've made a fantastic start on your interview prep. For your next step, would you like to tackle **"Practice behavioral answers"**? How many minutes do you have available for it?
+---
+USER INPUT 3:
+I completed Focus sessions 1 through 6. Mark those six milestones complete for my Focused work goal.
+TOOLS 3: ['update_goal_progress', 'get_weekly_metrics']
+MODEL RESPONSE 3:
+That is a huge push on your focused work!
+
+Here is where we stand as of **2026-10-24** (with **2 days remaining**):
+
+1. **Interview preparation** (Priority 1):
+   * Progress: `██░░░░░░░░` 25% (1/4 milestones completed, 45 minutes spent)
+   * ⚠️ **At Risk:** With 2 days remaining, your priority goal is below 75% complete (currently at 25% with 3 milestones remaining).
+
+2. **Focused work** (Priority 2):
+   * Progress: `████████░░` 75% (6/8 milestones completed, 0 minutes spent)
+
+You're making incredible progress. Since Interview preparation is your priority goal and remains at risk with only 2 days left, let's keep our momentum going there. Would you like to tackle **"Practice behavioral answers"** next? If so, how many minutes can you set aside for it?
+---
+USER INPUT 4:
+How is my week going? I have 20 minutes available today. What should I focus on?
+TOOLS 4: ['get_weekly_metrics']
+MODEL RESPONSE 4:
+Here is how your week looks as of **2026-10-24**, with just **2 days remaining**:
+
+1. **Interview preparation** (Priority 1):
+   * Progress: `██░░░░░░░░` 25% (1/4 milestones completed, 45 minutes spent)
+   * ⚠️ **At Risk:** With only 2 days left, your priority goal is below 75% complete (currently at 25% with 3 milestones remaining and a gap of 3 milestones).
+
+2. **Focused work** (Priority 2):
+   * Progress: `████████░░` 75% (6/8 milestones completed, 0 minutes spent)
+
+With **20 minutes available today**, the best place to focus is your priority goal, **Interview preparation**. Since practicing a full mock interview or reviewing feedback takes longer, your 20 minutes is a great fit for starting on **"Practice behavioral answers"**.
+
+Would you like to use your 20 minutes today to work on practicing behavioral answers?
+---
+USER INPUT 5:
+I only have 10 minutes now. Revise the recommendation to fit 10 minutes and tell me what to defer. Do not save it yet.
+TOOLS 5: []
+MODEL RESPONSE 5:
+Given that you only have **10 minutes** available today and **2 days remaining** in the week, your priority goal (**Interview preparation**, currently at 25%) remains at risk.
+
+To respect your 10-minute window, here is a realistic adjustment:
+* **Action:** Spend those 10 minutes drafting bullet points for a couple of common behavioral interview questions to jump-start **"Practice behavioral answers"**.
+* **Deferred Items:** Defer completing the entire behavioral practice session and the mock interview/feedback review to your remaining time tomorrow.
+
+Does this 10-minute plan sound good to you? Once you agree, we can get it saved!
+---
+USER INPUT 6:
+Yes, save that 10-minute plan.
+TOOLS 6: ['save_focus_plan', 'get_weekly_metrics']
+MODEL RESPONSE 6:
+Your 10-minute focus plan has been successfully saved!
+
+Here is where we stand as of **2026-10-24** (with **2 days remaining**):
+
+1. **Interview preparation** (Priority 1):
+   * Progress: `██░░░░░░░░` 25% (1/4 milestones completed, 45 minutes spent)
+   * ⚠️ **At Risk:** With 2 days remaining, your priority goal is below 75% complete (currently at 25% with 3 milestones remaining).
+
+2. **Focused work** (Priority 2):
+   * Progress: `████████░░` 75% (6/8 milestones completed, 0 minutes spent)
+
+You've got your plan locked in. Whenever you're ready, spend those 10 minutes drafting bullet points for your behavioral interview questions!
+---
+FINAL STATE: goals=2 activities=1 approved_plans=1
 ```
 
 ## Known Limitations
