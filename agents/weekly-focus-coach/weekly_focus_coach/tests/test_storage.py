@@ -8,6 +8,7 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
+from typing import get_args, get_type_hints
 from unittest.mock import patch
 
 from pydantic import ValidationError
@@ -46,6 +47,10 @@ class FocusCoachTests(unittest.TestCase):
             self.goal("Reading", priority=2)
         tools.set_weekly_goal("Reading", 1, "Read each day", "minutes", target_minutes=90, week_start="2026-10-26")
         self.assertEqual(len(self.store.load().goals), 3)
+
+    def test_goal_tool_schema_constrains_metric_type_for_the_model(self) -> None:
+        metric_type = get_type_hints(tools.set_weekly_goal)["metric_type"]
+        self.assertEqual(get_args(metric_type), ("minutes", "milestones"))
 
     def test_time_spent_does_not_complete_outcome_milestones(self) -> None:
         goal = self.goal("Interview prep")

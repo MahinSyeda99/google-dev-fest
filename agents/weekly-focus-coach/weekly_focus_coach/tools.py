@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 from datetime import date, datetime, timedelta
-from typing import Any
+from typing import Any, Literal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .models import Activity, FocusPlan, FocusState, Milestone, PlannedAction, WeeklyGoal
@@ -32,14 +32,14 @@ def set_weekly_goal(
     title: str,
     priority: int,
     success_criteria: str,
-    metric_type: str,
+    metric_type: Literal["minutes", "milestones"],
     target_minutes: int = 0,
     milestones: str = "",
     week_start: str = "",
     long_term_goal: str = "",
     target_date: str = "",
 ) -> dict[str, Any]:
-    """Create a weekly goal. Use minutes for time targets or semicolon-separated milestone titles for outcomes."""
+    """Create a weekly goal; metric_type must be exactly minutes or milestones."""
     start = _week(week_start)
     titles = [part.strip() for part in milestones.split(";") if part.strip()]
     target_day = date.fromisoformat(target_date) if target_date else None
