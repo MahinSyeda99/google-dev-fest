@@ -286,6 +286,7 @@ FINAL STATE: goals=2 activities=1 approved_plans=1
 - [ ] Add scheduled, opt-in reminders that prompt users to begin a small next action.
 - [ ] Provide a web API and dashboard using the same goal and progress models.
 - [ ] Support other goal units and explicit weekly milestone templates.
+- [ ] Generate personalized weekly milestones from longer-term goals and adapt them as progress changes.
 - [ ] Replace single user JSON storage with a database for a hosted multi-user service.
 - [ ] Add user selected commitment blocks and available time schedules.
 
